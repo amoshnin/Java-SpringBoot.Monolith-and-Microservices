@@ -37,12 +37,12 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void add(User user) {
+    public User add(User user) {
         if (this.userRepository.findUserByEmail(user.getEmail()).isPresent()) {
             throw new RestApiException(String.format("User with email: '%s' already exists. Emails must be unique.", user.getEmail()));
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     public void delete(Long userId) {
