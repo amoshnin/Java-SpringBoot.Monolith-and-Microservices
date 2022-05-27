@@ -57,8 +57,8 @@ Every web-service, must offer a service definition, which includes:
 - **Service consumer (client)** = who is using the services providede by a web-service
   
     (ex: PHP application, Java application are clients/consumers)
-  - **Service definition** = contract between the (service provider) and (service consumer)
-    - **Transport (HTTP and MQ)** = it defines how a web-service is called:
+- **Service definition** = contract between the (service provider) and (service consumer)
+- **Transport (HTTP and MQ)** = it defines how a web-service is called:
   - if web-service is exposed over Internet, so I will call it with a URL => HTTP 
   - if web-service is exposed over Queue => MQ   
     1. (service requester) would place a message in the queue
@@ -66,5 +66,5 @@ Every web-service, must offer a service definition, which includes:
     3. as soon as there's a request on the queue, service provider would take the request
     4. service provider will then process this request, create the response and put it back in the queue
     5. then, service requester would get the response from the queue. transport which is used is MQ.
-
-![q](/images/mq.png)
+    ![q](/images/mq.png)
+   
