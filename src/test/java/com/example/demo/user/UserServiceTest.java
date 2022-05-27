@@ -33,4 +33,10 @@ class UserServiceTest {
                         ).collect(Collectors.toList()));
         assertEquals(2, this.service.getList().size());
     }
+
+    @Test
+    public void add() {
+        User user = new User(1L, "alex@gmail.com", "123456", Sets.newHashSet());
+//        when(this.repository.save())
+    }
 }

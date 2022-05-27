@@ -50,6 +50,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void update(User user) {
+        System.out.println("here" + user.getId() + user.getEmail());
         Optional<User> row = this.userRepository.findById(user.getId());
         if (row.isPresent()) {
             User item = row.get();
@@ -62,6 +63,9 @@ public class UserService implements UserDetailsService {
             if (!user.getPassword().isEmpty()) {
                 item.setPassword(user.getPassword());
             }
+            this.userRepository.save(item);
+        } else {
+            throw new RestApiException(String.format("User with ID: %s doesn't exist", user.getId()));
         }
     }
 }
