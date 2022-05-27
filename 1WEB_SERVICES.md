@@ -68,4 +68,26 @@ Every web-service, must offer a service definition, which includes:
     5. then, service requester would get the response from the queue. transport which is used is MQ.
   
     ![q](/images/mq.png)
-   
+
+## (SOAP-based) web-services
+## (REST-based) web-services
+**REST** = REpresentational State Transfer. 
+Its goal is to make the best use of HTTP (Hyper Text Transfer Protocol):
+- HTTP Methods = GET, PUT, POST, DELETE
+- HTTP Status Codes = 200, 404, 500
+
+In HTTP, for every resource we assign it a URI (Uniform Resource Identifier):
+- /user/Tom/todos/1 => a single todo
+- /user/Tom/todos => a list of todos
+- /user/Tom => a user
+
+
+- Create a user => POST /users
+- Delete a user => DELETE /users/1
+- Get all users => GET /users
+- GEt one user => GET /users/1
+
+In HTTP you must be thinking in terms of resources and using verbs already pre-determined (GET/POST/PUT/DELETE)
+With REST, commonly used platform for creating service definitions is _Swagger_.
+With REST, the only transport that can be used is HTTP.
+With REST, the data/resources exchange format can be any of the existing ones (JSON/XML/HTML/...)
