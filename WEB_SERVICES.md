@@ -66,5 +66,5 @@ Every web-service, must offer a service definition, which includes:
     3. as soon as there's a request on the queue, service provider would take the request
     4. service provider will then process this request, create the response and put it back in the queue
     5. then, service requester would get the response from the queue. transport which is used is MQ.
-    ![q](/images/mq.png)
+  ![q](/images/mq.png)
    
