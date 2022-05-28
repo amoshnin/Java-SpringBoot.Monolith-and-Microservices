@@ -1,6 +1,6 @@
 ## REST Request methods
 
-Social media application
+### Social media application
 ------------------------------------
 - Retrieve all users - GET /users
 - Create a user - POST /users
@@ -12,7 +12,7 @@ Social media application
 - Create a post for a user - POST /users/{userId}/posts
 - Retrieve details of a post - GET /users/{userId}/posts/{postId}
 
-Relationships
+### Relationships
 ------------------------------------
 - User makes a number of posts over a period of its lifetime.
 - So, relationship between (users table) and (posts table) is one-to-many.
