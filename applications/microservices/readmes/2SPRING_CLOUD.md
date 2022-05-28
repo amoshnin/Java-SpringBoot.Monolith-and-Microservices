@@ -35,6 +35,6 @@
    
     - _Netflix Zuul API Gateway_ => One of the important things about microservices is that these microservices have a lot of common features, for example: logging, security, analytics. You don't want to implement all these common features in every microservice. Netflix Zuul API Gateway provide great solutions to these kind of challenges.
 
-4. **Fault tolerance** => _Zipkin Distributed Tracing Server_, _Netflix Zuul API Gateway_
+4. **Fault tolerance** => _Hystrix_
 
-    - x
+    - _Hystrix_ => it is used to implement fault tolerance. If a microservice is down, Hystrix helps us to configure a default response.  
