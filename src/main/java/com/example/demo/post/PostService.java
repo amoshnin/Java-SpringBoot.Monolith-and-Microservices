@@ -1,13 +1,19 @@
 package com.example.demo.post;
 
+import com.example.demo.configuration.exceptions.GenericException;
 import com.example.demo.configuration.exceptions.NotFoundException;
+import com.example.demo.configuration.pagination.PaginationObject;
+import com.example.demo.configuration.pagination.SortObject;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
+import com.example.demo.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,42 +26,46 @@ public class PostService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     public Post getItem(Long userId, Long postId) {
-        Optional<User> row = this.userRepository.findById(userId);
-        if (!row.isPresent()) {
-            throw new NotFoundException(String.format("User with ID: %s doesn't exist", userId));
-        }
-        User user = row.get();
+        User user = this.userService.getItem(userId);
         List<Post> postsWithGivenPostId = user.getPosts().stream().filter(post -> post.getId().equals(postId)).collect(Collectors.toList());
         if (postsWithGivenPostId.size() > 0) {
             return postsWithGivenPostId.get(0);
         } else {
-            throw new NotFoundException(String.format("Post with ID: %s for user with ID: %s is not found", userId, postId));
+            throw new NotFoundException(String.format("Post with ID: %s for user with ID: %s is not found", user.getId(), postId));
         }
     }
 
-    public List<Post> getListByUserId(Long userId, int offset, int pageSize) {
-        Optional<User> row = this.userRepository.findById(userId);
-        if (!row.isPresent()) {
-            throw new NotFoundException(String.format("User with ID: %s doesn't exist", userId));
+    public List<Post> getListByUserId(Long userId, PaginationObject pagination, Optional<SortObject> sortObject) {
+        User user = this.userService.getItem(userId);
+        Optional<Sort> sort = Optional.empty();
+        if (sortObject.isPresent()) {
+            if (sortObject.get().getDescendingSort()) {
+                sort = Optional.of(Sort.by(sortObject.get().getSortField()).descending());
+            } else {
+                sort = Optional.of(Sort.by(sortObject.get().getSortField()).ascending());
+            }
         }
-        User user = row.get();
-        List<Post> s = this.postRepository.findByUser_Id(userId);
-        for (Post x : s) {
-            System.out.println(x.getDescription());
+        Pageable pager = PageRequest.of(pagination.getPageNumber(), pagination.getPageSize());
+        if (sort.isPresent()) {
+            pager = PageRequest.of(pagination.getPageNumber(), pagination.getPageSize(), sort.get());
         }
-
-        return user.getPosts();
+        return this.postRepository.findByUser_Id(user.getId(), pager);
     }
 
-    public Post add(Long userId, Long createdByUserId, Post post) {
-        Optional<User> row = this.userRepository.findById(userId);
-        if (!row.isPresent()) {
-            throw new NotFoundException(String.format("User with ID: %s doesn't exist", userId));
+    public Post add(Long userId, Post post, Principal principal) {
+        if (this.userService.checkIfPrincipalIsAdmin(principal) || this.userService.checkIfPrincipalIsUser(userId, principal)) {
+            User principalUser = this.userService.getPrincipalData(principal);
+            User ownerUser = this.userService.getItem(userId);
+
+            post.setUser(ownerUser);
+            post.setCreatedByUserId(principalUser.getId());
+            return this.postRepository.save(post);
+        } else {
+            throw new GenericException("You don't have the authorities to perform this operation. You don't have the ADMIN role nor you are the owner of the data you are trying to perform an operation on");
         }
-        User user = row.get();
-        post.setUser(user);
-        post.setCreatedByUserId(createdByUserId);
-        return this.postRepository.save(post);
     }
 }

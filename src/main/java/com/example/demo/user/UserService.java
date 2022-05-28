@@ -1,8 +1,6 @@
 package com.example.demo.user;
 
 import com.example.demo.configuration.exceptions.FoundException;
-import com.example.demo.configuration.exceptions.NotFoundException;
-import com.example.demo.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -72,22 +70,16 @@ public class UserService implements UserDetailsService {
     }
 
     public void update(User user) {
-        System.out.println("here" + user.getId() + user.getEmail());
-        Optional<User> row = this.userRepository.findById(user.getId());
-        if (row.isPresent()) {
-            User item = row.get();
-            if (!user.getEmail().isEmpty()) {
-                item.setEmail(user.getEmail());
-            }
-            if (!user.getRoles().isEmpty()) {
-                item.setRoles(user.getRoles());
-            }
-            if (!user.getPassword().isEmpty()) {
-                item.setPassword(user.getPassword());
-            }
-            this.userRepository.save(item);
-        } else {
-            throw new NotFoundException(String.format("User with ID: %s doesn't exist", user.getId()));
+        User item = this.getItem(user.getId());
+        if (!user.getEmail().isEmpty()) {
+            item.setEmail(user.getEmail());
         }
+        if (!user.getRoles().isEmpty()) {
+            item.setRoles(user.getRoles());
+        }
+        if (!user.getPassword().isEmpty()) {
+            item.setPassword(user.getPassword());
+        }
+        this.userRepository.save(item);
     }
 }
