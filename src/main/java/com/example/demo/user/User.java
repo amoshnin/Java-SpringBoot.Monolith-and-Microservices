@@ -26,12 +26,12 @@ public class User {
     @Column(name="user_id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Email
+    @Email(message = "Email is not correctly formatted")
     @Column(unique = true)
     private String email;
-    @Size(min=6)
+    @Size(min=6, message = "Password should have at least 6 characters")
     private String password;
-    @Past
+    @Past(message = "Date of birth must be in the past")
     private LocalDate dob;
     // @ManyToOne => many (users) to one (role) => user can only have one role
     // @ManyToMany => many (users) to many (role) => user can have multiple roles

@@ -1,6 +1,5 @@
 package com.example.demo.user;
 
-import com.example.demo.configuration.response.RestApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,13 +32,13 @@ public class UserService implements UserDetailsService {
         if (row.isPresent()) {
             return row.get();
         } else {
-            throw new RestApiException(String.format("User with ID: %s doesn't exist", userId));
+            throw new UserNotFoundException(String.format("User with ID: %s doesn't exist", userId));
         }
     }
 
     public User add(User user) {
         if (this.userRepository.findUserByEmail(user.getEmail()).isPresent()) {
-            throw new RestApiException(String.format("User with email: '%s' already exists. Emails must be unique.", user.getEmail()));
+            throw new UserFoundException(String.format("User with email: '%s' already exists. Emails must be unique.", user.getEmail()));
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return this.userRepository.save(user);
@@ -65,7 +64,7 @@ public class UserService implements UserDetailsService {
             }
             this.userRepository.save(item);
         } else {
-            throw new RestApiException(String.format("User with ID: %s doesn't exist", user.getId()));
+            throw new UserNotFoundException(String.format("User with ID: %s doesn't exist", user.getId()));
         }
     }
 }
