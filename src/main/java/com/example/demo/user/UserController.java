@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping(path="item")
-    public ResponseEntity<Object> add(@RequestBody User user) {;
+    public ResponseEntity<Object> add(@Valid @RequestBody User user) {;
         User newUser = this.userService.add(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -4,8 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.tomcat.jni.Local;
+import org.mockito.internal.util.collections.Sets;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Set;
 
 @Getter
@@ -19,9 +26,13 @@ public class User {
     @Column(name="user_id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    @Email
     @Column(unique = true)
     private String email;
+    @Size(min=6)
     private String password;
+    @Past
+    private LocalDate dob;
     // @ManyToOne => many (users) to one (role) => user can only have one role
     // @ManyToMany => many (users) to many (role) => user can have multiple roles
     @ManyToMany(cascade = {CascadeType.MERGE})
@@ -36,8 +47,13 @@ public class User {
         this.roles = roles;
     }
 
-    public User(String email, String password) {
+    public User(Long id, String email, String password, Set<Role> roles) {
+        this.id = id;
         this.email = email;
         this.password = password;
+    }
+
+    private int getAge() {
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 }
