@@ -35,7 +35,7 @@ public class User {
     private LocalDate dob;
     // @ManyToOne => many (users) to one (role) => user can only have one role
     // @ManyToMany => many (users) to many (role) => user can have multiple roles
-    @ManyToMany(cascade = {CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name="user_roles",
         joinColumns = {@JoinColumn(name="fk_user_id", referencedColumnName="user_id")},
         inverseJoinColumns = {@JoinColumn(name="fk_role_id", referencedColumnName="role_id")})
