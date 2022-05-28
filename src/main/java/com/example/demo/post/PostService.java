@@ -34,7 +34,7 @@ public class PostService {
         }
     }
 
-    public List<Post> getListByUserId(Long userId) {
+    public List<Post> getListByUserId(Long userId, int offset, int pageSize) {
         Optional<User> row = this.userRepository.findById(userId);
         if (!row.isPresent()) {
             throw new NotFoundException(String.format("User with ID: %s doesn't exist", userId));

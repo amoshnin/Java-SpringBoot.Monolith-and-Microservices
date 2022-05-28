@@ -1,6 +1,7 @@
 package com.example.demo.post;
 
 import com.example.demo.configuration.exceptions.GenericException;
+import com.example.demo.configuration.exceptions.PaginatedResponse;
 import com.example.demo.user.User;
 import com.example.demo.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="api/users")
@@ -26,9 +28,15 @@ public class PostController {
         return this.postService.getItem(userId, postId);
     }
 
-    @GetMapping(path="{userId}/posts/list")
-    public List<Post> getListByUserId(@PathVariable Long userId) {
-        return this.postService.getListByUserId(userId);
+    @GetMapping(value={"{userId}/posts/list", "{userId}/posts/list/{offset}", "{userId}/posts/list/{offset}/{pageSize}"})
+    public PaginatedResponse<List<Post>> getListByUserId(
+            @PathVariable Long userId,
+            @PathVariable(required=false) Optional<Integer> offset,
+            @PathVariable(required=false) Optional<Integer> pageSize) {
+        int newOffset = offset.isPresent() ? offset.get() : 0;
+        int newPageSize = pageSize.isPresent() ? pageSize.get() : 10;
+        List<Post> posts = this.postService.getListByUserId(userId, newOffset, newPageSize);
+        return new PaginatedResponse<>(posts.size(), posts);
     }
 
     @PostMapping(path="{userId}/posts/item")
@@ -53,7 +61,7 @@ public class PostController {
 //    }
 //
 //    @DeleteMapping(path="item/{postId}")
-//    public void dalete(@PathVariable Long postId) {
+//    public void delete(@PathVariable Long postId) {
 //
 //    }
 }
