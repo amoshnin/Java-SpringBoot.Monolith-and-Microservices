@@ -68,4 +68,8 @@ public class PostService {
             throw new GenericException("You don't have the authorities to perform this operation. You don't have the ADMIN role nor you are the owner of the data you are trying to perform an operation on");
         }
     }
+
+    public void delete(Long postId) {}
+
+    public void update(Post post) {}
 }

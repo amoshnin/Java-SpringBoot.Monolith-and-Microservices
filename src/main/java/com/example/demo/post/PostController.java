@@ -57,13 +57,13 @@ public class PostController {
         return ResponseEntity.created(location).build();
     }
 
-//    @PutMapping(path="item")
-//    public void update(Post post) {
-//
-//    }
-//
-//    @DeleteMapping(path="item/{postId}")
-//    public void delete(@PathVariable Long postId) {
-//
-//    }
+    @PutMapping(path="item")
+    public void update(Post post) {
+        this.postService.update(post);
+    }
+
+    @DeleteMapping(path="item/{postId}")
+    public void delete(@PathVariable Long postId) {
+        this.postService.delete(postId);
+    }
 }
