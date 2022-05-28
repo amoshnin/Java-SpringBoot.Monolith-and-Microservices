@@ -45,7 +45,7 @@ class UserServiceTest {
 
     @Test
     public void getItem() {
-        User user = new User("alex@gmail.com", "123456", Sets.newHashSet());
+        User user = new User(1L,"alex@gmail.com", "123456", Sets.newHashSet());
         when(this.repository.findById(1L)).thenReturn(Optional.of(user));
         assertEquals(user, this.service.getItem(user.getId()));
     }
