@@ -41,13 +41,14 @@ public class PostService {
         return user.getPosts();
     }
 
-    public Post add(Long userId, Post post) {
+    public Post add(Long userId, Long createdByUserId, Post post) {
         Optional<User> row = this.userRepository.findById(userId);
         if (!row.isPresent()) {
             throw new NotFoundException(String.format("User with ID: %s doesn't exist", userId));
         }
         User user = row.get();
         post.setUser(user);
+        post.setCreatedByUserId(createdByUserId);
         return this.postRepository.save(post);
     }
 }

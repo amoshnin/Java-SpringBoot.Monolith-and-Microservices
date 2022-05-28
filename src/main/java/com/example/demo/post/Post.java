@@ -24,4 +24,5 @@ public class Post {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="fk_user_id", referencedColumnName="user_id")
     private User user;
+    private Long createdByUserId;
 }

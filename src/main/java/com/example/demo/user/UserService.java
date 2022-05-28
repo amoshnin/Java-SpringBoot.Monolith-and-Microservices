@@ -2,6 +2,7 @@ package com.example.demo.user;
 
 import com.example.demo.configuration.exceptions.FoundException;
 import com.example.demo.configuration.exceptions.NotFoundException;
+import com.example.demo.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,8 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -23,6 +26,24 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Email %s not found", email)));
         UserDetailsPrincipal userDetailsPrincipal = new UserDetailsPrincipal(user);
         return userDetailsPrincipal;
+    }
+
+    public User getPrincipalData(Principal principal) {
+        Optional<User> row = this.userRepository.findUserByEmail(principal.getName());
+        User user = row.get();
+        return user;
+    }
+
+    public boolean checkIfPrincipalIsUser(Long userId, Principal principal) {
+        Optional<User> row = this.userRepository.findUserByEmail(principal.getName());
+        User user = row.get();
+        return user.getId() == userId;
+    }
+
+    public boolean checkIfPrincipalIsAdmin(Principal principal) {
+        Optional<User> row = this.userRepository.findUserByEmail(principal.getName());
+        User user = row.get();
+        return user.getRoles().stream().map(item -> item.getName()).collect(Collectors.toList()).contains("ADMIN");
     }
 
     public List<User> getList() {
