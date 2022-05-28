@@ -1,8 +1,11 @@
 package com.example.demo.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +25,16 @@ public class PostController {
         return this.postService.getListByUserId(userId);
     }
 
-//    @PostMapping(path="item")
-//    public void add(Post post) {
-//
-//    }
-//
+    @PostMapping(path="{userId}/posts/item")
+    public ResponseEntity<Object> add(@PathVariable Long userId, @RequestBody Post post) {
+        Post newPost = this.postService.add(userId, post);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{postId}")
+                .buildAndExpand(newPost.getId()).toUri();
+        return ResponseEntity.created(location).build();
+    }
+
 //    @PutMapping(path="item")
 //    public void update(Post post) {
 //

@@ -40,4 +40,14 @@ public class PostService {
         User user = row.get();
         return user.getPosts();
     }
+
+    public Post add(Long userId, Post post) {
+        Optional<User> row = this.userRepository.findById(userId);
+        if (!row.isPresent()) {
+            throw new NotFoundException(String.format("User with ID: %s doesn't exist", userId));
+        }
+        User user = row.get();
+        post.setUser(user);
+        return this.postRepository.save(post);
+    }
 }
