@@ -1,8 +1,11 @@
 package com.example.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -22,8 +25,13 @@ public class UserController {
     }
 
     @PostMapping(path="item")
-    public void add(@RequestBody User user) {;
-        this.userService.add(user);
+    public ResponseEntity<Object> add(@RequestBody User user) {;
+        User newUser = this.userService.add(user);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{userId}")
+                .buildAndExpand(newUser.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping(path="item/{userId}")
