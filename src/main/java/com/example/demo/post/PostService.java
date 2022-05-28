@@ -40,6 +40,11 @@ public class PostService {
             throw new NotFoundException(String.format("User with ID: %s doesn't exist", userId));
         }
         User user = row.get();
+        List<Post> s = this.postRepository.findByUser_Id(userId);
+        for (Post x : s) {
+            System.out.println(x.getDescription());
+        }
+
         return user.getPosts();
     }
 
