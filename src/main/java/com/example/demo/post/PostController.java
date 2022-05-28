@@ -7,35 +7,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="api/posts")
+@RequestMapping(path="api/users")
 public class PostController {
     @Autowired
     private PostService postService;
 
-    @GetMapping(path="item/{postId}")
-    public Post getItem(@PathVariable Long postId) {
-        return new Post();
+    @GetMapping(path="{userId}/posts/item/{postId}")
+    public Post getItem(@PathVariable Long userId, @PathVariable Long postId) {
+        return this.postService.getItem(userId, postId);
     }
 
-    @GetMapping(path="list/{userId}")
-    public List<Post> getListByUserId() {
-        List<Post> q = new ArrayList<>();
-        q.add(new Post());
-        return q;
+    @GetMapping(path="{userId}/posts/list")
+    public List<Post> getListByUserId(@PathVariable Long userId) {
+        return this.postService.getListByUserId(userId);
     }
 
-    @PostMapping(path="item")
-    public void add(Post post) {
-
-    }
-
-    @PutMapping(path="item")
-    public void update(Post post) {
-
-    }
-
-    @DeleteMapping(path="item/{postId}")
-    public void dalete(@PathVariable Long postId) {
-
-    }
+//    @PostMapping(path="item")
+//    public void add(Post post) {
+//
+//    }
+//
+//    @PutMapping(path="item")
+//    public void update(Post post) {
+//
+//    }
+//
+//    @DeleteMapping(path="item/{postId}")
+//    public void dalete(@PathVariable Long postId) {
+//
+//    }
 }

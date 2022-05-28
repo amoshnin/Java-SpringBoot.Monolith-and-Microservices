@@ -1,18 +1,17 @@
 package com.example.demo.user;
+import com.example.demo.post.Post;
 import com.example.demo.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.tomcat.jni.Local;
-import org.mockito.internal.util.collections.Sets;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -40,6 +39,8 @@ public class User {
         joinColumns = {@JoinColumn(name="fk_user_id", referencedColumnName="user_id")},
         inverseJoinColumns = {@JoinColumn(name="fk_role_id", referencedColumnName="role_id")})
     private Set<Role> roles;
+    @OneToMany(mappedBy="user")
+    private List<Post> posts;
 
     public User(String email, String password, Set<Role> roles) {
         this.email = email;
