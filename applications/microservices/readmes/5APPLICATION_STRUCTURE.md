@@ -137,3 +137,15 @@ public class CurrencyConversionController {
 }
 
 ```
+
+## Problems with the above methodology of calling other microservices (solution as Feign)
+
+- To make a simple REST API call from a microserice to another microservice we needed to write about 20 lines of code.
+
+- Imagine what would happen if in a Microservices architecture you have hundreads of microservices, they'd all be calling each other and you'd need to repeat this kind of code everywhere.
+
+To resolve this issue, **Spring Cloud** provides you with a framework called **Feign**.
+
+- **Feign** => it makes it very easy to call other microservices
+
+- (note: feign in this case is added to our CurrencyConversionService, bcs that is the microservices from which we are calling the CurrencyExchangeMicroservice)
