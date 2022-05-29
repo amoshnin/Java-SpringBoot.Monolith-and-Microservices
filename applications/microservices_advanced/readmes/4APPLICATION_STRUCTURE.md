@@ -463,3 +463,14 @@ Now, this request is working:
 - So, the API Gateway would take care of the common features and then invoke the (Currency Exchange Service)
 
 Same can be done with any of our microservices, like for example with the (Currency Conversion Service) the URL that would go through the API Gateway would be (http://localhost:8765/CURRENCY-CONVERSION-SERVICE/currency-conversion/feign/from/USD/to/INR/quantity/10)
+
+Now, we can call any microservice registerd with Eureka through the API Gateway.
+If you want to implement things like authentication, you can implement them on the API Gateway and you can only give access to your microservices if the user is authenticated.
+
+To make these URLs lowercase rather than uppercase (which looks strange) we add the following into `application.properties` of API Gateway:
+
+```
+spring.cloud.gateway.discovery.locator.lowerCaseServiceId=true
+```
+
+Now, URLs will look like this: (localhost:8765/currency-exchange-service/currency-exchange/from/USD/to/INR)
