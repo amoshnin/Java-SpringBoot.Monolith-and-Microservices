@@ -410,3 +410,15 @@ But since Zul is no longer supported by Netflix, Spring Cloud has moved on and n
 - Spring Boot Actuator =>
 - Eureka Discovery Client => bcs we want the API Gatway to connect to Naming Server (Eureka) (we also used this library in both of the microservices we've created before (Currency Conversion Service) and (Currency Exchange Service))
 - Gateway =>
+
+Add the following lines to the `application.properties` and launch (when launching make sure that the Naming Server is also launched obviously):
+
+```
+spring.application.name=application-gateway
+server.port=8765
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+```
+
+Now, after launching both microservices (with 1 instance of Currency Conversion Service and 2 instances of Currency Exchange Service on port 8000 and 8001), launching API Gateway and launching Naming Server - the Eureka dashboard looks like this:
+
+![x](../images/im16.png)
