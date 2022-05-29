@@ -445,8 +445,8 @@ We want the API Gateway to:
 2. Find the server location (http://localhost:8000 or with any other corresponding port)
 3. Then execute request to this URL (currency-exchange/from/USD/to/INR)
 
-To enable this feature in Spring Cloud API Gateway we add the following application.properties in API Gateway server:
+To enable this feature in Spring Cloud API Gateway we add the following `application.properties` in API Gateway server:
 
 ```
-spring.cloud.gateway.discovery.client.enabled=true
+spring.cloud.gateway.discovery.locator.enabled=true
 ```
