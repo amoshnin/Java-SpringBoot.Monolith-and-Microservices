@@ -2,7 +2,7 @@ Enterpresises are heading towards microservices architectures => which involves 
 
 ![x](../images/im20.png)
 
-- Advantage: One of the biggest advantages of microservices is the flexibility to build applications in different programming languages (Java, Go, Python, JavaScript). So we can leverage the unique advantages that each of those languages provide for our specific use-cases.
+- Advantage: One of biggest advantages of microservices is the flexibility to build applications in different programming languages (Java, Go, Python, JavaScript). So we can leverage the unique advantages that each of those languages provide for our specific use-cases.
 
 - Problem: As we implement different microservices in different programming languages - deployments of these microservices become complex.
 
