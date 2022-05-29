@@ -79,8 +79,9 @@ public class CurrencyExchangeController {
 
 ## Calling one microserivce (CurrencyExchangeMicroservice) from another microservice (CurrencyConversionMicroservice)
 
-This is done using _RestTemplate_ which allows us to make REST API calls.
-Below is a code for a controller of the 'CurrencyConversionMicroservice' microservice in which a method is calling the 'CurrencyExchangeMicroservice'
+- This is done using _RestTemplate_ which allows us to make REST API calls.
+
+- Below is a code for a controller of the 'CurrencyConversionMicroservice' microservice in which a method is calling the 'CurrencyExchangeMicroservice'
 
 ```
 import org.springframework.http.ResponseEntity;
