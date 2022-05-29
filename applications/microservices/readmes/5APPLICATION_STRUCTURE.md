@@ -6,13 +6,13 @@ Overall structure of the project:
 
 ![x](../images/im6.png)
 
-1. Microservice 1: Currency Exchange Microservice => what is the exchange rate of one currency to another
+1. Microservice 1: (first Spring Boot Application) Currency Exchange Microservice => what is the exchange rate of one currency to another
 
    - From this microservice we will be exposing a simple URL:
 
    ![x](../images/im5.png)
 
-2. Microservice 2: Currency Conversion Microservice => convering 10 USD into INR
+2. Microservice 2: (second Spring Boot Application) Currency Conversion Microservice => convering 10 USD into INR
 
    - From this microservice we will be exposing a simple URL:
 
@@ -309,3 +309,9 @@ server.port=8761
 eureka.client.register-with-eureka=false
 eureka.client.fetch-registry=false
 ```
+
+Then, we can launch the Naming Server. This is the way Eureka looks like:
+![x](../images/im10.png)
+At the moment, we have no instances of any microservices registered.
+
+### Getting (Currency Exchange Service) and (Currency Conversion Service) to communicate with (Naming Server) (Eureka)
