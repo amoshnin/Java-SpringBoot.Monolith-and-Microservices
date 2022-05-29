@@ -548,3 +548,34 @@ Important features of Spring Cloud Gateway include:
 ![x](../images/im18.png)
 
 ## Circuit breaker
+
+In microservices architecture, there is a complex call chain - where one microservice calls another one, then that microservice will call another one and so on.
+
+![x](../images/im19.png)
+
+What would happen if one of these microservices is down or very slow? There would be an impact on the entire chain.
+(ex: if microservice 4 is down, then microservice 3, 2, 1 will also be down - bcs these're all dependent on microserice 4)
+
+- So, can we return a fallback/default response if a service is down? => This might be possible sometimes, but not always
+
+  - for example, with credit card transaction you cannot have any possible fallback responses
+
+  - for example, with shopping application, instead of returning a set of products - you might return a default set of products
+
+- Can we implement a Circuit Breaker pattern to reduce the load?
+
+  - If I see that microservice 4 is down, instead of repeatedly hitting it and causing it to go down, can I actually return the default response back without even hitting the microservice 4
+
+- Can we retry requests in case of temporary failures?
+
+  - If there's a temporary failure from microservice 4, can I retry it a few times before returnig the default response.
+
+- Can we implement something like rate limiting?
+
+  - Id' want to only allow a certain number of calls to a specific microservice in a specific period of time.
+
+**Solution** to all of these is a **Circuit Breaker Framework called _Resilience4j_**
+
+### Resilience4j\_
+
+**Resilience4j** => it is a fault tolerance library (inspired by Netlfix Hystrix)
