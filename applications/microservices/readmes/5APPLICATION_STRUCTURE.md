@@ -236,3 +236,17 @@ public class CurrencyConversionController {
     }
 }
 ```
+
+## Problem that we still face: when communicating btw two microservices (in CurrencyExchangeProxy) we're hardocindg URL of service we trying to communicate to
+
+So, if I would want to get the (Currency Conversion Service) to talk to a different instance of (Currency Exchange Service) I would have to manually change that URL from localhost:8000 to localhost:8001 or localhost:8002 and so on
+
+The state we want to get to:
+
+- be able to dynamically launch (Currency Exchange Service) instances
+
+- and distribute load between all the active instances of (Currency Exchange Service)
+
+As instances come up and go down, we want to be able to automatically discover them and load balance between them.
+
+![x](../images/im8.png)
