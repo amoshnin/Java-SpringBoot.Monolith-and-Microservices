@@ -270,3 +270,5 @@ What will happen: In a microservice architecture, all the instances of all the m
 - Then the service registry would return those back to the (Currency Conversion Microservice)
 
 - Then, (Currency Conversion Microservice) would load balance between all the active instances of (Currency Exchange Microservice) (send out requests)
+
+### Creating a Naming Server with Eureka - (it involves creating a new SpringBoot application)
