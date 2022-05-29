@@ -1,3 +1,5 @@
+# Introduction (reasons why we need containers)
+
 Enterpresises are heading towards microservices architectures => which involves building multiple small focused microservices that communicate with each other.
 
 ![x](../images/im20.png)
@@ -11,3 +13,21 @@ Enterpresises are heading towards microservices architectures => which involves 
   - How can we get one common way to deploy all microservices irrespective of the language/framework that is used to build these microservices?
 
   - That's where containers come into picture. The most popular container tool is Docker.
+
+# Docker
+
+- We can create **Docker images** for each of the microservices that we have
+
+- **Docker image** => contains everything a microservice needs to run:
+
+  - Application runtime (JDK or Python or NodeJS)
+
+  - Application code (ex: JAR for Java applications)
+
+  - Dependecies that you need to run the applcation
+
+- Once you have this Docker image, you can run these as Docker containers, the same way on any infrastructure.
+
+- So, you can run these Docker images on (your local machine, corporate data center, cloud - AWS/Azure/Google Cloud)
+
+![x](../images/im21.png)
