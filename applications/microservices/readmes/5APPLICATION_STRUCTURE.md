@@ -237,7 +237,7 @@ public class CurrencyConversionController {
 }
 ```
 
-## Problem that we still face: when communicating btw two microservices (in CurrencyExchangeProxy) we're hardocindg URL of service we trying to communicate to
+## Problem that we still face: when communicating between two microservices (in CurrencyExchangeProxy) we're hardcoding URL of service we trying to communicate to
 
 So, if I would want to get the (Currency Conversion Service) to talk to a different instance of (Currency Exchange Service) I would have to manually change that URL from localhost:8000 to localhost:8001 or localhost:8002 and so on
 
