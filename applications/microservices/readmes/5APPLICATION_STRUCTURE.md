@@ -34,7 +34,7 @@ Overall structure of the project:
 
   ![x](../images/im8.png)
 
-### Running multiple instances of a microservice = is the same as running the same SpringBoot application on different ports
+### Running multiple instances of a microservice = is same as running the same SpringBoot application on different ports
 
 This can be achieved by, going into editing Run/Debug Configurations in InteliJ.
 
