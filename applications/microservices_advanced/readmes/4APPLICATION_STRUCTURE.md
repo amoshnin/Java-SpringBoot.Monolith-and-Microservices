@@ -389,3 +389,9 @@ Inside the (Currency Conversion Service) there is a Load Balancer component whic
 - **Feign** uses the **Spring Cloud Load Balancer** to distribute the load among the multiple instances which are returned by Eureka
 
 - (in earlier version of Spring Cloud, load balancer that was used was Ribbon, but now they shifted to Spring Cloud Load Balancer as the load balancer)
+
+## Setting up Spring Cloud API Gateway
+
+Now, we have only impemeneted two microservices: (Currency Conversion Service=SpringBoot app) and (Currency Exchange Service=SpringBoot app) as well as the(Naming Server with Eureka=SpringBoot app).
+
+But

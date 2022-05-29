@@ -1,3 +1,6 @@
 [submodule "applications/microservices/config-repo"]
 	path = applications/microservices/config-repo
 	url = https://github.com/Artem711/Java-Spring.Microservices.Config.git
+[submodule "applications/applications/microservices_starting_app/config-repo"]
+	path = applications/applications/microservices_starting_app/config-repo
+	url = https://github.com/Artem711/Java-Spring.Microservices.Config.git
