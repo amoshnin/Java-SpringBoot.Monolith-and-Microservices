@@ -362,4 +362,6 @@ Note: problem fixed at this stage is to rename our two microservices in their co
 (spring.application.name=currency_conversion_service and spring.application.name=currency_exchange_service)
 to (spring.application.name=currency-conversion-service and spring.application.name=currency-exchange-service)
 
-Such that the name passed into Feign matches the names that appear in Eureka Naming Server (these naming are supposed to be done right from the start)
+Such that the name passed into Feign matches the names that appear in Eureka Naming Server
+
+(these naming are supposed to be done right from the start)
