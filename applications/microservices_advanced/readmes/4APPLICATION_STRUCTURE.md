@@ -576,7 +576,7 @@ What would happen if one of these microservices is down or very slow? There woul
 
 **Solution** to all of these is a **Circuit Breaker Framework called _Resilience4j_**
 
-### Resilience4j\_
+### Resilience4j
 
 **Resilience4j** => it is a fault tolerance library (inspired by Netlfix Hystrix).
 
@@ -596,3 +596,48 @@ Adding the following dependencies in any of our microservices (for example in th
     <artifactId>resilience4j-spring-boot2</artifactId>
 </dependency>
 ```
+
+**Feature 1 of Circuit Breaker: Retry**
+
+Let's assume that the microservicet that we're calling (http://localhost:8080/some-dummy-url) is temporarily down.
+
+So, we want to try to invoke this URL multiple times to see if it gives us a response back on 2nd/3rd/4th/... time we try to call it
+
+In those kind of situations we would use the `@Retry` annotation:
+
+```
+import io.github.resilience4j.retry.annotation.Retry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@RestController
+public class CircuitBreakerController {
+    private Logger logger = LoggerFactory.getLogger(CircuitBreakerController.class);
+
+    @GetMapping("/sample")
+    @Retry(name="default") // default @Retry configuration
+    public String sample() {
+        this.logger.info("Sample API call received");
+        ResponseEntity<String> res = new RestTemplate().getForEntity("http://localhost:8080/some-dummy-url", String.class); // this should fail
+        return res.getBody();
+    }
+}
+```
+
+If we look at the logs, we see that `Sample API call received` was called 3 times instead of 1.
+
+So, with @Retry annotation it tried to call this method multiple times (3 times by default).
+
+If retry fails all 3 times, only then would it return an error back.
+
+To configure specific number of retry intervals, we create our specific retry configuration in `application.properties`:
+
+```
+resilience4j.retry.instances.sample.maxRetryAttempts = 5
+```
+
+Then in controller we'd replace `@Retry(name="default")` with `@Retry(name="sample")` to have 5 attempts of retrying to call the method before returning error
