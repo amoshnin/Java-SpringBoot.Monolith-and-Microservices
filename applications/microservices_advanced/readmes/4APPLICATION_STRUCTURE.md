@@ -597,7 +597,7 @@ Adding the following dependencies in any of our microservices (for example in th
 </dependency>
 ```
 
-**Feature 1 of Circuit Breaker: Retry**
+### **Feature 1 of Circuit Breaker: Retry**
 
 Let's assume that the microservicet that we're calling (http://localhost:8080/some-dummy-url) is temporarily down.
 
@@ -634,6 +634,14 @@ So, with @Retry annotation it tried to call this method multiple times (3 times 
 
 If retry fails all 3 times, only then would it return an error back.
 
+With logs being:
+
+```
+2022-05-29 18:46:48.506  INFO 8412 --- [nio-8001-exec-3] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:46:49.083  INFO 8412 --- [nio-8001-exec-3] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:46:49.621  INFO 8412 --- [nio-8001-exec-3] c.e.c.C.CircuitBreakerController         : Sample API call received
+```
+
 To configure specific number of retry intervals, we create our specific retry configuration in `application.properties`:
 
 ```
@@ -641,3 +649,86 @@ resilience4j.retry.instances.sample.maxRetryAttempts = 5
 ```
 
 Then in controller we'd replace `@Retry(name="default")` with `@Retry(name="sample")` to have 5 attempts of retrying to call the method before returning error
+
+You can also add a fallback method in case after the attempt to retry it still fails, by writing: `@Retry(name="sample", fallbackMethod="hardcodedResponse")`:
+
+```
+import io.github.resilience4j.retry.annotation.Retry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@RestController
+public class CircuitBreakerController {
+    private Logger logger = LoggerFactory.getLogger(CircuitBreakerController.class);
+
+    @GetMapping("/sample")
+    @Retry(name="sample", fallbackMethod="hardcodedResponse") // default @Retry configuration
+    public String sample() {
+        this.logger.info("Sample API call received");
+        ResponseEntity<String> res = new RestTemplate().getForEntity("http://localhost:8080/some-dummy-url", String.class); // This should fail
+        return res.getBody();
+    }
+
+    public String hardcodedResponse(Exception ex) { // You can have different responses ruturned back for different kind of exceptions!
+        return "fallback-qq";
+    }
+}
+```
+
+In above implementation, five retries to calling the method would happen
+
+Then at the end of the 5 failed retries - fallback response would be returned back.
+
+With logs being:
+
+```
+2022-05-29 18:45:53.602  INFO 8377 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:45:54.206  INFO 8377 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:45:54.756  INFO 8377 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:45:55.283  INFO 8377 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:45:55.804  INFO 8377 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+```
+
+### **Feature 2 of Circuit Breaker: Interval between retries**
+
+In `application.properties` you can also configure the time intervals between retries by adding:
+
+```
+resilience4j.retry.instances.sample.waitDuration = 1s
+```
+
+With logs being:
+
+```
+2022-05-29 18:45:15.155  INFO 8344 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:45:16.225  INFO 8344 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:45:17.268  INFO 8344 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:45:18.321  INFO 8344 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:45:19.336  INFO 8344 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+```
+
+### **Feature 3 of Circuit Breaker: Exponential backoff**
+
+In `application.properties` you can also configure the time intervals for each consecutive retry to be increasing exponentially by adding:
+
+```
+resilience4j.retry.instances.sample.enableExponentialBackoff = true
+```
+
+With logs being:
+
+```
+2022-05-29 18:43:16.409  INFO 8284 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:43:17.486  INFO 8284 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:43:19.012  INFO 8284 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:43:21.289  INFO 8284 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+2022-05-29 18:43:24.698  INFO 8284 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
+```
+
+Now response takes a little bit more time because each subsequent request, it would wait for a little longer
+
+(ex: most of the APIs on AWS use exponential backoff)
