@@ -8,6 +8,8 @@ spring.application.name=spring_cloud_config_server
 spring.cloud.config.server.git.uri=file://${user.home}/library/dev/dmeo/applications/microservices/config-repo
 ```
 
+The `spring.cloud.config.server.git.uri` would store path to a directory where you store configurations for all microservices
+
 4. Code for starting out the SpringCloudConfigServer, you must add the annotation `@EnableConfigServer`:
 
 ```
@@ -27,8 +29,6 @@ public class DemoApplication {
 }
 
 ```
-
-The `spring.cloud.config.server.git.uri` would store path to a directory where you store configurations for all microservices
 
 5. Create each microservices that you need and in each of them - add the following to application.properties:
 
@@ -105,3 +105,7 @@ public class Limit {
     private int maximum;
 }
 ```
+
+7. To make changes to the configurations:
+   1. Make the changes to the corresponding .properties file in config directory
+   2. Commit that repository (git add -A . | git commit -m "Made changes to configuration")
