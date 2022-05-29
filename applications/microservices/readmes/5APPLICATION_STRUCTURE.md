@@ -380,3 +380,12 @@ Now if we make multiple requests to the (Currency Conversion Service) endpoint t
 - and other times it is being processed by the 2nd instance of (Currency Exchange Service) at port 8001
 
   ![x](../images/im15.png)
+
+What is in here?
+Inside the (Currency Conversion Service) there is a Load Balancer component which is: (talking to the Naming Server), (finding the instances of a microsrvice to we're trying to communicate with), (doing automatic load balacing between the available instances) => this is called **Client Side Load Balancing**
+
+- This **Client Side Load Balancing** is happening through **Feign**
+
+- **Feign** uses the **Spring Cloud Load Balancer** to distribute the load among the multiple instances which are returned by Eureka
+
+- (in earlier version of Spring Cloud, load balancer that was used was Ribbon, but now they shifted to Spring Cloud Load Balancer as the load balancer)
