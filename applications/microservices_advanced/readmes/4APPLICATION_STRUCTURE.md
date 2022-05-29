@@ -474,3 +474,77 @@ spring.cloud.gateway.discovery.locator.lowerCaseServiceId=true
 ```
 
 Now, URLs will look like this: (localhost:8765/currency-exchange-service/currency-exchange/from/USD/to/INR)
+
+### Building custom routes in API Gateway
+
+To build custom routes in API Gateway we have to create a Configuration file (ApiGatewayConfiguration):
+
+```
+import org.springframework.cloud.gateway.route.Route;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.Buildable;
+import org.springframework.cloud.gateway.route.builder.PredicateSpec;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.function.Function;
+
+@Configuration
+public class ApiGatewayConfiguration {
+    @Bean
+    public RouteLocator gatewayRouter(RouteLocatorBuilder builder) { // using this builder we can customise the routes which we want to use
+        Function<PredicateSpec, Buildable<Route>> routeFunctionGet = p -> p.path("/get")
+                .filters(f -> f
+                        .addRequestHeader("MyHeader", "MyURI") // ex: these can be your authentication headers
+                        .addRequestParameter("Param", "MyValue")) // ex: these can be your authentication parameters
+                .uri("http://httpbin.org:80"); // if request comes to /get then redirect => ex: you can redirect to your microservice
+
+        return builder.routes()
+                .route(routeFunctionGet).build();
+    }
+}
+```
+
+### Adding global filters in API Gateway
+
+```
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
+
+@Component
+public class LoggingFilter implements GlobalFilter {
+    private Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
+
+    @Override
+    // Every time a request is made to API Gateway Server, it will be logged in this function with all the information about the request present!
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // Logging information about the request (that information is present in the 1st parameter = exchange)
+        this.logger.info("Path of the request received -> {}", exchange.getRequest().getURI());
+        // After logging the request, we want to let the execution continue:
+        return chain.filter(exchange);
+        // So, we're logging and letting the chain continue
+    }
+    // If you want to implement authentication for all the requests, then this might be a right place to implement that.
+}
+```
+
+### Conclusion on API Gateway
+
+Spring Cloud Gateway is an effective/simple way to route to your APIs and implement cross-cutting concerns, such as (Security, Monitoring, Metrics).
+
+Important features of Spring Cloud Gateway include:
+
+- It can match routes on any request attribute (ex: we matched based on path when building custom routes in ApiGatewayConfiguration class) (but you can match routes based on headers, host, path and others)
+- It can defines predicates and filters => what needs to be done once a request is matched
+- It integrated with Spring Cloud Discovery Client (Load Balancing)
+- Path rewriting
+
+![x](../images/im18.png)
+
+## Circuit breaker
