@@ -404,3 +404,9 @@ But since Zul is no longer supported by Netflix, Spring Cloud has moved on and n
 ```
 
 ## Implementing _Spring Cloud Gateway_ by creating new SpringBoot application, with libraries:
+
+- Lombok =>
+- Spring Boot DevTools =>
+- Spring Boot Actuator =>
+- Eureka Discovery Client => bcs we want the API Gatway to connect to Naming Server (Eureka) (we also used this library in both of the microservices we've created before (Currency Conversion Service) and (Currency Exchange Service))
+- Gateway =>
