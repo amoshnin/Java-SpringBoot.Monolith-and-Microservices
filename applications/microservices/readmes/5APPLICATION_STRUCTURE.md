@@ -76,3 +76,5 @@ public class CurrencyExchangeController {
     }
 }
 ```
+
+## Calling one microserivce (CurrencyExchangeMicroservice) from another microservice (CurrencyConversionMicroservice)
