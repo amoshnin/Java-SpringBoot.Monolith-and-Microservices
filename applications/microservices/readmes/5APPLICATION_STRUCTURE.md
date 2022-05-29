@@ -23,3 +23,13 @@ Overall structure of the project:
    - It will ask what is the value of USD in INR today?
 
    - Then it would take the return value and multiply it with 10 (based on our request to convert 10 USD into INR).
+
+## Load Balancing
+
+- Later, we will have multiple instances of (CurrencyConversionMicroservice) and (CurrencyExchangeMicroservice)
+- When calling from (CurrencyConversionMicroservice), I would need to know:
+  - which instance of the (CurrencyExchangeMicroservice) is providing the response
+  - is instance 1 of (CurrencyExchangeMicroservice) runnnig on port 8000 or 8001 or 8002
+- That would help us identify whether our load balancers and naming servers are working properly
+
+  ![x](../images/im8.png)
