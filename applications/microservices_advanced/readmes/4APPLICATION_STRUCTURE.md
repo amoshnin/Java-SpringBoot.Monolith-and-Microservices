@@ -578,4 +578,21 @@ What would happen if one of these microservices is down or very slow? There woul
 
 ### Resilience4j\_
 
-**Resilience4j** => it is a fault tolerance library (inspired by Netlfix Hystrix)
+**Resilience4j** => it is a fault tolerance library (inspired by Netlfix Hystrix).
+
+Adding the following dependencies in any of our microservices (for example in the Currency Exchange Service):
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot2</artifactId>
+</dependency>
+```
