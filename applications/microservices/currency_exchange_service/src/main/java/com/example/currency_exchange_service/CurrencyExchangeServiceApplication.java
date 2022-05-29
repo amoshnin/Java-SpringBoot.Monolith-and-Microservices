@@ -11,7 +11,7 @@ public class CurrencyExchangeServiceApplication {
 }
 
 // URL (Currency Exchange Service): http://localhost:8000/currency-exchange/from/USD/to/INR
-// URL (Currency Conversion Service): http://localhost:8000/currency-conversion/from/USD/to/INR/quantity/10
+// URL (Currency Conversion Service): http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
 // Response structure:
 //{
 //	"id":10001,
