@@ -403,4 +403,4 @@ Note: in the older versions of Spring Cloud, the popular API Gateway to use was 
 But since Zul is no longer supported by Netflix, Spring Cloud has moved on and now the recommended option as an API Gateway is _Spring Cloud Gateway_)
 ```
 
-## Now, we'll implement _Spring Cloud Gateway_ by creating new SpringBoot application, with libraries:
+## Implementing _Spring Cloud Gateway_ by creating new SpringBoot application, with libraries:
