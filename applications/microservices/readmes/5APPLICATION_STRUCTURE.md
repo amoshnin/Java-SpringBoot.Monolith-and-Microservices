@@ -149,3 +149,90 @@ To resolve this issue, **Spring Cloud** provides you with a framework called **F
 - **Feign** => it makes it very easy to call other microservices
 
 - (note: feign in this case is added to our CurrencyConversionService, bcs that is the microservices from which we are calling the CurrencyExchangeMicroservice)
+
+So, adding the dependency of Feign:
+
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
+Then, add the following in the starter of our microservice `@EnableFeignClients`:
+
+```
+@EnableFeignClients
+@SpringBootApplication
+public class CurrencyConversionServiceApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(CurrencyConversionServiceApplication.class, args);
+	}
+}
+```
+
+Then we have to create a Proxy class for the specific microservices we're going to call (proxy it must be an interface):
+
+```
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@FeignClient(name="currency-exchange-service", url="localhost:8000")
+public interface CurrencyExchangeProxy {
+    @GetMapping("currency-exchange/from/{from}/to/{to}")
+    public CurrencyConversion retrieveExchangeValue(@PathVariable String from, @PathVariable String to);
+    // Note: CurrencyConversion structure matches the response we obtain from CurrencyExchange Microservice (url above). Therefore, these values automatically get mapped.
+        //     -- CurrencyConversion structure --
+        //     public class CurrencyConversion {
+        //        private Long id;
+        //        private String from;
+        //        private String to;
+        //        private BigDecimal quantity;
+        //        private BigDecimal conversionMultiple;
+        //        private BigDecimal totalCalculatedAmount;
+        //        private String environment;
+        //    }
+        //     -- Response we obtain from CurrencyExchange Service (url above) --
+        //    {
+        //    	"id":10001,
+        //    	"from":"USD",
+        //    	"to":"INR",
+        //    	"conversionMultiple":65.00,
+        //    	"environment":"8000 instance-id"
+        //    }
+}
+```
+
+Then we use this proxy class to make a REST API call to the other microservice (CurrencyExchange) in our controller (CurrencyConversionController):
+
+```
+package com.example.currency_conversion_service.CurrencyConversion;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.math.BigDecimal;
+
+@RestController
+@RequestMapping(path="currency-conversion")
+public class CurrencyConversionController {
+    @Autowired
+    private CurrencyExchangeProxy proxy;
+
+    @GetMapping(path="from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversion calculateConversionValue(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
+        CurrencyConversion currencyConversion = this.proxy.retrieveExchangeValue(from ,to);
+        return new CurrencyConversion(
+                currencyConversion.getId(),
+                from,
+                to,
+                quantity,
+                currencyConversion.getConversionMultiple(),
+                quantity.multiply(currencyConversion.getConversionMultiple()),
+                currencyConversion.getEnvironment());
+    }
+}
+```
