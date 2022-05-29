@@ -315,3 +315,29 @@ Then, we can launch the Naming Server. This is the way Eureka looks like:
 At the moment, we have no instances of any microservices registered.
 
 ### Getting (Currency Exchange Service) and (Currency Conversion Service) to communicate with (Naming Server) (Eureka)
+
+**Step 1: Connecting (Currency Exchange Service) and (Currency Conversion Service) to the Naming Server (Eureka)**
+
+1. Open the pom.xml of (Currency Exchange Service) and (Currency Conversion Service), add the following dependecy to each of them (they are both microservices):
+
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+2. Add the following line in `application.properties`:
+
+```
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+```
+
+3. Let's try and launch one of the instances of (Currency Exchange Service) (on port 8000)
+
+Now, after simply adding this dependency and adding a line in `application.properties`
+We can see that after launching the microservice, it gets immediately registered in Eureka.
+
+![x](../images/im11.png)
+
+**Step 2: Afterwards, we'd make the (Currency Conversion Service) talk to (Currency Exchange Service) through the Naming Server**
