@@ -405,6 +405,8 @@ But since Zul is no longer supported by Netflix, Spring Cloud has moved on and n
 
 ## Implementing _Spring Cloud Gateway_ by creating new SpringBoot application, with libraries:
 
+### Launching API Gateway
+
 - Lombok =>
 - Spring Boot DevTools =>
 - Spring Boot Actuator =>
@@ -422,3 +424,5 @@ eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
 Now, after launching both microservices (with 1 instance of Currency Conversion Service and 2 instances of Currency Exchange Service on port 8000 and 8001), launching API Gateway and launching Naming Server - the Eureka dashboard looks like this:
 
 ![x](../images/im16.png)
+
+### Enabling Discovery Locator with Eureka for Spring Cloud Gateway
