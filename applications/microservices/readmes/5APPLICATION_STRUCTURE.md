@@ -250,3 +250,11 @@ The state we want to get to:
 As instances come up and go down, we want to be able to automatically discover them and load balance between them.
 
 ![x](../images/im8.png)
+
+Even if Feign would provide us the ability to enter multiple URLs, such as:
+
+```
+@FeignClient(name="currency-exchange-service", url="localhost:8000;localhost:8001;localhost:8002")
+```
+
+It still would not be a good solution. Let's say instance on port 8000 went down and a new instances was brought up on 8003 - so you would have to be changing the code all the time. That is the reason why we go for something called Service Registry or Naming Server.
