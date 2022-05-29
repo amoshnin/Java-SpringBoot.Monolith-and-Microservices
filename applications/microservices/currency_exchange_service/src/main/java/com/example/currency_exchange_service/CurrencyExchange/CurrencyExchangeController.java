@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping(path="currency-exchange")
 public class CurrencyExchangeController {
-
     @Autowired
     private Environment environment;
 
