@@ -394,4 +394,4 @@ Inside the (Currency Conversion Service) there is a Load Balancer component whic
 
 Now, we have only impemeneted two microservices: (Currency Conversion Service=SpringBoot app) and (Currency Exchange Service=SpringBoot app) as well as the(Naming Server with Eureka=SpringBoot app).
 
-But
+But in typical microservices architectures there would be hundreds of microservices like these. And these microservices have a lot of common features such as: (authentication, authorization, logging, rate limiting, ...) - where do we implement all these features?
