@@ -356,7 +356,7 @@ To make it load balance btw multiple instances we go into the (Currency Conversi
 
 - All we have to do is replace this annotation above the proxy inteface `@FeignClient(name="currency-exchange-service", url="localhost:8000")` for this annotation `@FeignClient(name="currency-exchange-service")`
 
-- That way FeignClient will talk to Eureka to pick up the instances of (Currency Exchange Service) and perform load balancing between them.
+- That way FeignClient will talk to Eureka to pick up the instances of (Currency Exchange Service) & perform load balancing btw them
 
 Note: problem fixed at this stage is to rename our two microservices in their corresponding application.properties files, from:
 (spring.application.name=currency_conversion_service and spring.application.name=currency_exchange_service)
