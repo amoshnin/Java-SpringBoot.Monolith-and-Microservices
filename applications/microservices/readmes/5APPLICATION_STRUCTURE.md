@@ -272,3 +272,40 @@ What will happen: In a microservice architecture, all the instances of all the m
 - Then, (Currency Conversion Microservice) would load balance between all the active instances of (Currency Exchange Microservice) (send out requests)
 
 ### Creating a Naming Server with Eureka - (it involves creating a new SpringBoot application)
+
+Dependices needed to create the Naming Server (with Eureka) are the following:
+
+- Spring Boot DevTools
+
+- Spring Boot Actuator
+
+- Eureka Server
+
+- Lombok
+
+Then, in the starting of application we add this annotation (`@EnableEurekaServer`):
+
+```
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+@EnableEurekaServer
+@SpringBootApplication
+public class NamingServerApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(NamingServerApplication.class, args);
+	}
+}
+```
+
+Then, in `application.properties` we add the following configuations:
+
+```
+spring.application.name=naming_server
+server.port=8761
+
+# configurations to ensure that this specific server doesn't register with itself
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+```
