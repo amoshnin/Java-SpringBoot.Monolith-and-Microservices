@@ -370,3 +370,13 @@ Now, we can launch the second instance of (Currency Exchange Service) on port 80
 If we look at the Eureka Dashboard of the Naming Server, we can see that now there are two instances of (Currency Exchange Service) running:
 
 ![x](../images/im13.png)
+
+Now if we make multiple requests to the (Currency Conversion Service) endpoint to get some conversion, we would see that:
+
+- sometiems it is being processed by 1st instance of (Currency Exchange Service) at port 8000
+
+  ![x](../images/im14.png)
+
+- and other times it is being processed by the 2nd instance of (Currency Exchange Service) at port 8001
+
+  ![x](../images/im15.png)
