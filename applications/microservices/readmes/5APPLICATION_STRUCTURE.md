@@ -340,4 +340,8 @@ We can see that after launching the microservice, it gets immediately registered
 
 ![x](../images/im11.png)
 
+4. Launching the other microservice (Currency Conversion Service) we see that it similarly gets registerd in Eureka:
+
+![x](../images/im12.png)
+
 **Step 2: Afterwards, we'd make the (Currency Conversion Service) talk to (Currency Exchange Service) through the Naming Server**
