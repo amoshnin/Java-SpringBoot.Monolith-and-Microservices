@@ -365,3 +365,8 @@ to (spring.application.name=currency-conversion-service and spring.application.n
 Such that the name passed into Feign matches the names that appear in Eureka Naming Server
 
 (these naming are supposed to be done right from the start)
+
+Now, we can launch the second instance of (Currency Exchange Service) on port 8001.
+If we look at the Eureka Dashboard of the Naming Server, we can see that now there are two instances of (Currency Exchange Service) running:
+
+![x](../images/im13.png)
