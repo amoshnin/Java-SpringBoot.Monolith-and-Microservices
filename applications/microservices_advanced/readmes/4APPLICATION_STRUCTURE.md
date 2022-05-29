@@ -597,7 +597,9 @@ Adding the following dependencies in any of our microservices (for example in th
 </dependency>
 ```
 
-### **Feature 1 of Circuit Breaker: Retry**
+## Retry and Fallback Methods of Resilience4j
+
+### **Feature 1: Retry**
 
 Let's assume that the microservicet that we're calling (http://localhost:8080/some-dummy-url) is temporarily down.
 
@@ -641,6 +643,8 @@ With logs being:
 2022-05-29 18:46:49.083  INFO 8412 --- [nio-8001-exec-3] c.e.c.C.CircuitBreakerController         : Sample API call received
 2022-05-29 18:46:49.621  INFO 8412 --- [nio-8001-exec-3] c.e.c.C.CircuitBreakerController         : Sample API call received
 ```
+
+### **Feature 2: Specific number of retries in Retry**
 
 To configure specific number of retry intervals, we create our specific retry configuration in `application.properties`:
 
@@ -693,7 +697,7 @@ With logs being:
 2022-05-29 18:45:55.804  INFO 8377 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
 ```
 
-### **Feature 2 of Circuit Breaker: Interval between retries**
+### **Feature 3: Interval between retries**
 
 In `application.properties` you can also configure the time intervals between retries by adding:
 
@@ -711,7 +715,7 @@ With logs being:
 2022-05-29 18:45:19.336  INFO 8344 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
 ```
 
-### **Feature 3 of Circuit Breaker: Exponential backoff**
+### **Feature 4: Exponential backoff**
 
 In `application.properties` you can also configure the time intervals for each consecutive retry to be increasing exponentially by adding:
 
@@ -729,6 +733,17 @@ With logs being:
 2022-05-29 18:43:24.698  INFO 8284 --- [nio-8001-exec-1] c.e.c.C.CircuitBreakerController         : Sample API call received
 ```
 
-Now response takes a little bit more time because each subsequent request, it would wait for a little longer
+Now response takes a little bit more time because each subsequent request, it would wait for a little longer.
 
-(ex: most of the APIs on AWS use exponential backoff)
+Each subsequent retry is taking longer and longer as seen from the timestamps in logs.
+
+(ex: Most of the APIs on AWS use exponential backoff. If I'm calling an API and on 1st attempt it fails - then it would make the next attempt after for example 1sec, then if it also fails, it would make the 3rd attempt after another 2sec, then make the 4th attempt after another 4sec, then after 8sec, then after 16sec)
+
+These features are useful if a service is momentarily down - you'd just give the service a little bit of time and then call it again.
+However, what if the service is really down for a long time? That's the kind of scenarios where we would go for a circuit breaker pattern.
+
+## Circuit breaker Features of Resilience4j
+
+### **Feature 1: x**
+
+x
