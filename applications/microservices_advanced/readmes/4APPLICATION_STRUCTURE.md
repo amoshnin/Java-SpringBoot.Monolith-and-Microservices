@@ -450,3 +450,6 @@ To enable this feature in Spring Cloud API Gateway we add the following `applica
 ```
 spring.cloud.gateway.discovery.locator.enabled=true
 ```
+
+Now, this request is working:
+![x](../images/im17.png)
