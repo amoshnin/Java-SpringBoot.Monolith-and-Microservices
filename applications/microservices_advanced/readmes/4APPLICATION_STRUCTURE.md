@@ -432,16 +432,16 @@ Now, after launching both microservices (with 1 instance of Currency Conversion 
   - For example, if we were to access Currency Exchange Service, we would combine:
 
     - API Gateway URL = http://localhost:8765
-    - Name of Currency Exchange Service in Eureka Deasboard = CURRENCY-EXCHANGE
+    - Name of Currency Exchange Service in Eureka Deasboard = CURRENCY-EXCHANGE-SERVICE
     - Path to the Currency Exchange Service = currency-exchange/from/USD/to/INR
 
-So, obtaining: http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR
+So, obtaining: http://localhost:8765/CURRENCY-EXCHANGE-SERVICE/currency-exchange/from/USD/to/INR
 
 But, now we get an error when we execute this URL.
 
 We want the API Gateway to:
 
-1. Talk to Eureka with this name (CURRENCY-EXCHANGE)
+1. Talk to Eureka with this name (CURRENCY-EXCHANGE-SERVICE)
 2. Find the server location (http://localhost:8000 or with any other corresponding port)
 3. Then execute request to this URL (currency-exchange/from/USD/to/INR)
 
