@@ -744,6 +744,5 @@ However, what if the service is really down for a long time? That's the kind of 
 
 ## Circuit breaker Features of Resilience4j
 
-### **Feature 1: x**
-
-x
+TODO: https://www.udemy.com/course/microservices-with-spring-boot-and-spring-cloud/learn/lecture/24346924#overview
+TODO: https://www.udemy.com/course/microservices-with-spring-boot-and-spring-cloud/learn/lecture/24346920#overview
