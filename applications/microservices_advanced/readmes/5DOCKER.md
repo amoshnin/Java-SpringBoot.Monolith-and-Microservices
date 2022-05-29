@@ -8,4 +8,6 @@ Enterpresises are heading towards microservices architectures => which involves 
 
   - Say [MovieService and Customer Service] are implemented in Java and [the other ones] are implemented in Python. But we don't want different deployment procedures for each of these microservice types.
 
-  - How can we get a common way to deploy all microservices irrespective of the language/framework that is used to build these microservices?
+  - How can we get one common way to deploy all microservices irrespective of the language/framework that is used to build these microservices?
+
+  - That's where containers come into picture. The most popular container tool is Docker.
