@@ -345,3 +345,15 @@ We can see that after launching the microservice, it gets immediately registered
 ![x](../images/im12.png)
 
 **Step 2: Afterwards, we'd make the (Currency Conversion Service) talk to (Currency Exchange Service) through the Naming Server**
+
+## Load Balancing with (Eureka, Feign) and (Spring Cloud Load Balancer)
+
+![x](../images/im8.png)
+
+Load balancing between the multiple instances of (Currency Exchange Service) from (Currency Conversion Service)
+
+To make it load balance btw multiple instances we go into the (Currency Conversion Service) proxy:
+
+- All we have to do is replace this annotation above the proxy inteface `@FeignClient(name="currency-exchange-service", url="localhost:8000")` for this annotation `@FeignClient(name="currency-exchange-service")`
+
+- That way FeignClient will talk to Eureka to pick up the instances of (Currency Exchange Service) and perform load balancing between them.
