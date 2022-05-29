@@ -453,3 +453,13 @@ spring.cloud.gateway.discovery.locator.enabled=true
 
 Now, this request is working:
 ![x](../images/im17.png)
+
+**IMPORTANT**:
+
+- Therefore, now whenever you have a client for the (Currency Exchange Service), you can actually give them this URL (http://localhost:8765/CURRENCY-EXCHANGE-SERVICE/currency-exchange/from/USD/to/INR) which goes through the API Gateway
+
+- Therefore, you can implement all the common features in your API Gateway
+
+- So, the API Gateway would take care of the common features and then invoke the (Currency Exchange Service)
+
+Same can be done with any of our microservices, like for example with the (Currency Conversion Service) the URL that would go through the API Gateway would be (http://localhost:8765/CURRENCY-CONVERSION-SERVICE/currency-conversion/feign/from/USD/to/INR/quantity/10)
