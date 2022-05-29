@@ -257,4 +257,16 @@ Even if Feign would provide us the ability to enter multiple URLs, such as:
 @FeignClient(name="currency-exchange-service", url="localhost:8000;localhost:8001;localhost:8002")
 ```
 
-It still would not be a good solution. Let's say instance on port 8000 went down and a new instances was brought up on 8003 - so you would have to be changing the code all the time. That is the reason why we go for something called Service Registry or Naming Server.
+It still would not be a good solution. Let's say instance on port 8000 went down and a new instances was brought up on 8003 - so you would have to be changing the code all the time. That is the reason why we go for something called **Service Registry** or **Naming Server**.
+
+![x](../images/im9.png)
+
+What will happen: In a microservice architecture, all the instances of all the microservices would register with a Service Registry.
+
+- Let's say the (Currency Conversion Microservice) wants to talk to the (Currency Exchange Microservice)
+
+- It would ask the Service Registry for the adressses of all the active instances of (Currency Exchange Microservice)
+
+- Then the service registry would return those back to the (Currency Conversion Microservice)
+
+- Then, (Currency Conversion Microservice) would load balance between all the active instances of (Currency Exchange Microservice) (send out requests)
