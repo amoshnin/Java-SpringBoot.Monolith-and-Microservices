@@ -426,3 +426,27 @@ Now, after launching both microservices (with 1 instance of Currency Conversion 
 ![x](../images/im16.png)
 
 ### Enabling Discovery Locator with Eureka for Spring Cloud Gateway
+
+- Now, the idea is that we can access our services through this API Gateway URL (http://localhost:8765)
+
+  - For example, if we were to access Currency Exchange Service, we would combine:
+
+    - API Gateway URL = http://localhost:8765
+    - Name of Currency Exchange Service in Eureka Deasboard = CURRENCY-EXCHANGE
+    - Path to the Currency Exchange Service = currency-exchange/from/USD/to/INR
+
+So, obtaining: http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR
+
+But, now we get an error when we execute this URL.
+
+We want the API Gateway to:
+
+1. Talk to Eureka with this name (CURRENCY-EXCHANGE)
+2. Find the server location (http://localhost:8000 or with any other corresponding port)
+3. Then execute request to this URL (currency-exchange/from/USD/to/INR)
+
+To enable this feature in Spring Cloud API Gateway we add the following application.properties in API Gateway server:
+
+```
+spring.cloud.gateway.discovery.client.enabled=true
+```
