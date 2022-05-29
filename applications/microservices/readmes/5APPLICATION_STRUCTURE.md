@@ -44,6 +44,6 @@ This can be achieved by, going into editing Run/Debug Configurations in InteliJ.
    - first application => CurrencyExchangeServiceApplication 8000
    - second application => CurrencyExchangeServiceApplication 8001
 
-     To configure this second application to run on port 8001. Click Modify options -> Click Add VM options -> Paste -Dserver.port=8001
+     Configure this 2nd application to run on port 8001. Click Modify options -> Click Add VM options -> Paste -Dserver.port=8001
 
      Whatever you provide here as an environment variable, it would override whatever is configured in application.properties
